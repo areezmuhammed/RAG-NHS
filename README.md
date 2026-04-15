@@ -1,26 +1,77 @@
-# NHS Drug Interaction RAG
+# 🏥 NHS Drug Interaction RAG
 
-An educational Retrieval-Augmented Generation (RAG) system for checking drug-drug interactions based on NHS guidelines and clinical data.
+An advanced, educational **Retrieval-Augmented Generation (RAG)** pipeline designed to check for drug-drug interactions (DDI) based on clinical data and official NHS guidelines. 
 
-## Project Structure
-
-- `data/`: Knowledge base and processed artifacts.
-  - `raw/`: Original source documents (dm+d, SmPCs, NHS SPS guidance, etc.).
-  - `processed/`: Text extractions, chunks, and metadata.
-  - `indexes/`: Vector store indexes (FAISS, pgvector, BM25).
-- `src/`: Core logic for the RAG pipeline.
-  - `ingest/`: Data loading and processing scripts.
-  - `rag/`: Retrieval and generation logic.
-  - `api/`: FastAPI web server.
-  - `utils/`: Shared helper functions.
-- `scripts/`: One-off maintenance or task scripts.
-- `AGENTS.md`: System-level instructions for AI collaboration.
-
-## Getting Started
-
-1. Place source PDFs in `data/raw/`.
-2. Run ingestion scripts to process and index data.
-3. Start the API server for chat interactions.
+This project demonstrates 2026 best practices in high-precision RAG, utilizing agentic reasoning and hierarchical document processing to provide safe, grounded responses.
 
 ---
-*Educational use only. Not for clinical decision making.*
+
+## ⚡ Key Features
+
+*   **Hierarchical (Parent-Child) Chunking**: Optimizes retrieval for high precision by indexing small chunks for search while retrieving large parent contexts for generation.
+*   **Gemma 4 Agentic Reasoning**: Leverages Gemma 4's native "Thinking Mode" to clinically verify interactions before generating a response.
+*   **Safety-First Design**: Implements query classification and clinical groundedness checks to prevent hallucinations.
+*   **Local-First Stack**: Designed for privacy and speed using local LLMs (Ollama) and local embeddings (BGE).
+
+## 🛠️ Technical Stack
+
+*   **Core Logic**: Python 3.11+, LangChain
+*   **LLM**: Gemma 4 (via Ollama)
+*   **Embeddings**: `BAAI/bge-large-en-v1.5` (HuggingFace)
+*   **Vector Store**: FAISS (Local)
+*   **Framework**: FastAPI (Backend API)
+
+## 📂 Project Structure
+
+```text
+├── data/
+│   ├── manifest/       # Drug master lists and source metadata
+│   ├── raw/            # Original SmPC/NHS documents (PDF/Text)
+│   └── indexes/        # Generated FAISS vector stores
+├── src/
+│   ├── rag/            # The "Brain": Retrieval and prompt logic
+│   ├── ingest/         # Document processing and chunking
+│   └── api/            # API endpoints
+├── scripts/            # Ingestion and maintenance scripts
+└── requirements.txt    # Project dependencies
+```
+
+## 🚀 Getting Started
+
+### 1. Prerequisites
+*   [Ollama](https://ollama.com/) installed and running.
+*   Gemma 4 model pulled: `ollama pull gemma4:26b`.
+
+### 2. Installation
+```bash
+# Clone the repository
+git clone https://github.com/areezmuhammed/RAG-NHS.git
+cd RAG-NHS
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### 3. Ingest Data
+Place your clinical PDFs in `data/raw/smpc/` and run:
+```bash
+python scripts/seed_sample_data.py  # Create sample data
+python scripts/ingest.py           # Generate vector index
+```
+
+### 4. Run the Brain
+```bash
+python src/rag/brain.py
+```
+
+## ⚠️ Safety Disclaimer
+
+**For Educational Purposes Only.** 
+This application is a technical demonstration of RAG capabilities and should **not** be used for clinical decision-making, prescribing, or diagnosis. Always consult a qualified healthcare professional or official NHS/BNF resources for medical advice.
+
+---
+*Developed for learning modern AI engineering and clinical safety in RAG systems.*
