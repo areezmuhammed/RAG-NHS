@@ -1,0 +1,177 @@
+[
+  {
+    "drug_name": "Metformin",
+    "filename": "metformin_smpc.pdf",
+    "category": "Antidiabetic",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Metformin"
+  },
+  {
+    "drug_name": "Ibuprofen",
+    "filename": "ibuprofen_smpc.pdf",
+    "category": "NSAID",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Ibuprofen"
+  },
+  {
+    "drug_name": "Paracetamol",
+    "filename": "paracetamol_smpc.pdf",
+    "category": "Analgesic",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Paracetamol"
+  },
+  {
+    "drug_name": "Warfarin",
+    "filename": "warfarin_smpc.pdf",
+    "category": "Anticoagulant",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Warfarin"
+  },
+  {
+    "drug_name": "Aspirin",
+    "filename": "aspirin_smpc.pdf",
+    "category": "Antiplatelet",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Aspirin"
+  },
+  {
+    "drug_name": "Atorvastatin",
+    "filename": "atorvastatin_smpc.pdf",
+    "category": "Statin",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Atorvastatin"
+  },
+  {
+    "drug_name": "Simvastatin",
+    "filename": "simvastatin_smpc.pdf",
+    "category": "Statin",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Simvastatin"
+  },
+  {
+    "drug_name": "Ramipril",
+    "filename": "ramipril_smpc.pdf",
+    "category": "ACE Inhibitor",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Ramipril"
+  },
+  {
+    "drug_name": "Lisinopril",
+    "filename": "lisinopril_smpc.pdf",
+    "category": "ACE Inhibitor",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Lisinopril"
+  },
+  {
+    "drug_name": "Amlodipine",
+    "filename": "amlodipine_smpc.pdf",
+    "category": "Calcium Channel Blocker",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Amlodipine"
+  },
+  {
+    "drug_name": "Furosemide",
+    "filename": "furosemide_smpc.pdf",
+    "category": "Loop Diuretic",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Furosemide"
+  },
+  {
+    "drug_name": "Bendroflumethiazide",
+    "filename": "bendroflumethiazide_smpc.pdf",
+    "category": "Thiazide-like Diuretic",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Bendroflumethiazide"
+  },
+  {
+    "drug_name": "Spironolactone",
+    "filename": "spironolactone_smpc.pdf",
+    "category": "Potassium-sparing Diuretic",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Spironolactone"
+  },
+  {
+    "drug_name": "Omeprazole",
+    "filename": "omeprazole_smpc.pdf",
+    "category": "Proton Pump Inhibitor",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Omeprazole"
+  },
+  {
+    "drug_name": "Lansoprazole",
+    "filename": "lansoprazole_smpc.pdf",
+    "category": "Proton Pump Inhibitor",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Lansoprazole"
+  },
+  {
+    "drug_name": "Sertraline",
+    "filename": "sertraline_smpc.pdf",
+    "category": "SSRI",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Sertraline"
+  },
+  {
+    "drug_name": "Citalopram",
+    "filename": "citalopram_smpc.pdf",
+    "category": "SSRI",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Citalopram"
+  },
+  {
+    "drug_name": "Amitriptyline",
+    "filename": "amitriptyline_smpc.pdf",
+    "category": "Tricyclic Antidepressant",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Amitriptyline"
+  },
+  {
+    "drug_name": "Fluoxetine",
+    "filename": "fluoxetine_smpc.pdf",
+    "category": "SSRI",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Fluoxetine"
+  },
+  {
+    "drug_name": "Amoxicillin",
+    "filename": "amoxicillin_smpc.pdf",
+    "category": "Penicillin Antibiotic",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Amoxicillin"
+  },
+  {
+    "drug_name": "Clarithromycin",
+    "filename": "clarithromycin_smpc.pdf",
+    "category": "Macrolide Antibiotic",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Clarithromycin"
+  },
+  {
+    "drug_name": "Ciprofloxacin",
+    "filename": "ciprofloxacin_smpc.pdf",
+    "category": "Quinolone Antibiotic",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Ciprofloxacin"
+  },
+  {
+    "drug_name": "Trimethoprim",
+    "filename": "trimethoprim_smpc.pdf",
+    "category": "Antibiotic",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Trimethoprim"
+  },
+  {
+    "drug_name": "Morphine",
+    "filename": "morphine_smpc.pdf",
+    "category": "Opioid Analgesic",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Morphine"
+  },
+  {
+    "drug_name": "Amiodarone",
+    "filename": "amiodarone_smpc.pdf",
+    "category": "Antiarrhythmic",
+    "source_type": "SmPC",
+    "source_url": "https://products.mhra.gov.uk/search?query=Amiodarone"
+  }
+]

@@ -1,0 +1,354 @@
+1. Define scope and non‑goals (1–2 days)
+Before coding, lock down the exact slice of the problem you’ll solve.
+
+Target user: “Clinician‑in‑training or pharmacist‑in‑training who wants quick interaction summaries for common primary‑care drugs.”
+
+Query types to support:
+
+“Can a diabetic patient take ibuprofen with metformin?”
+
+“What are the key interactions for warfarin and amiodarone?”
+
+“Is sertraline safe with tramadol? What should I monitor?”
+
+Non‑goals for v1:
+
+No live patient data.
+
+Not a prescribing tool; it’s an educational assistant with clear safety disclaimers.
+
+UK‑centric information only (NHS / NICE / BNF style).
+
+Add a big banner: “Educational only. Not for clinical decision making.” and log every query for later evaluation.
+
+2. Data & knowledge base design (1 week)
+Your differentiator is how you curate and structure the knowledge base.
+
+2.1 Choose sources and structure
+Public/contextual resources:
+
+High‑level NHS guidance pages on interactions, e.g. NHS Specialist Pharmacy Service and similar educational pieces.
+
+Open, research‑style material (BMJ, NICE summaries) focused on drug–drug interactions as background context.
+
+You cannot scrape BNF wholesale (copyright, paywalled in many forms). Instead, for the portfolio project:
+
+Use:
+
+Synthetic “mini‑monographs” you create for 20–50 common drugs (paracetamol, ibuprofen, metformin, ACE inhibitors, SSRIs, warfarin, NOACs, common antibiotics).
+
+Each monograph: indications, mechanism, key interactions, severity, management advice, sources.
+
+Design a schema for your documents, e.g. JSON:
+
+drug_name
+
+drug_class
+
+interacting_drug_name
+
+interaction_type (pharmacodynamic/pharmacokinetic)
+
+severity (minor/moderate/serious)
+
+description
+
+clinical_management
+
+citations (URLs / references)
+
+This gives you structured fields you can exploit in retrieval (e.g. filter by severity).
+
+2.2 Ingestion pipeline
+Implement a reproducible ingestion pipeline:
+
+A data/ folder with:
+
+drug_monographs.jsonl
+
+interaction_pairs.jsonl
+
+A Python script / notebook that:
+
+Validates schemas.
+
+Normalises drug names (lowercase, canonical).
+
+Generates text chunks (e.g. 500–1,000 tokens) with embedded metadata (drug names, severity, source).
+
+Deliverables for CV:
+
+“Designed a structured schema for drug–drug interaction documents and implemented an automated ingestion pipeline feeding a vector store.”
+
+3. RAG architecture & stack (2–3 weeks)
+Aim for a clean, modular RAG stack using LangChain (since you mentioned it) plus a vector DB.
+
+3.1 Core choices
+Backend language: Python (fast iteration, LangChain ecosystem).
+
+Vector DB: Pick one from:
+
+pgvector (great if you want to show SQL skills).
+
+FAISS (simple, good locally).
+
+Pinecone (nice for “real‑world SaaS infra” signalling).
+
+Embedding model: Open‑source embedding (e.g. all-MiniLM type) or paid (OpenAI/Sonar embeddings), but wrap it so you can swap easily.
+
+LLM: Use a reasonably strong model via API, but design to be model‑agnostic.
+
+3.2 RAG pipeline v1
+Implement a minimal but solid retrieval pipeline:
+
+Pre‑processing:
+
+Drug name extraction from query using a simple NER pass or regex over a curated list (e.g. match “ibuprofen”, “metformin”).
+
+Retrieval:
+
+Hybrid retrieval: semantic vector search + exact drug name filter in metadata where possible.
+
+Prompting:
+
+System prompt emphasising:
+
+UK context.
+
+“Educational, not prescriptive.”
+
+“Only answer from retrieved context; otherwise say you don’t know.”
+
+Include citations: each retrieved chunk carries source_name and url; format them in the answer.
+
+Example behaviour:
+
+Input: “Can a diabetic patient take ibuprofen with metformin?”
+
+Pipeline:
+
+Extract drugs: ibuprofen, metformin.
+
+Retrieve interactions where either drug is primary or secondary; include diabetes‐specific notes if available.
+
+LLM composes a short, structured answer with:
+
+Summary risk.
+
+Mechanism.
+
+Management advice (e.g. monitor glucose, renal function).
+
+‘See also’ links.
+
+4. Advanced RAG features to showcase (3–4 weeks)
+This is where you push into “LLM engineer” territory, the part that gets you noticed for £50k+ roles in the UK AI market.
+
+4.1 Multi‑step retrieval and reasoning
+Implement a tool‑like pipeline:
+
+Stage 1: Query rewriting:
+
+Turn user query into a structured form: list of drugs, comorbidities, key questions (e.g. contraindication, monitoring).
+
+Stage 2: Targeted retrieval:
+
+Separate retrieval for:
+
+Drug–drug interaction pair(s).
+
+Disease‑related considerations (e.g. diabetes, CKD).
+
+Stage 3: Answer synthesis:
+
+Chain‑of‑thought style reasoning internally, but output a concise explanation:
+
+“Risk: low/moderate/high.”
+
+“Mechanism: …”
+
+“Management: …”
+
+Always attach citations and, where appropriate, a reference to guideline‑type sources.
+
+4.2 Safety, guardrails, and refusals
+For healthcare, this is critical and is itself a skill companies look for.
+
+Implement:
+
+Query classifier:
+
+Categorise as:
+
+“education/general info” (allowed),
+
+“diagnosis/prescribing decision” (refuse or strongly caution).
+
+Safety layer:
+
+If a question looks like: “What dose should I prescribe for X?”, respond:
+
+High‑level guidance only.
+
+Encourage consultation of official BNF / local protocols, with a refusal to give specific dosing.
+
+Highlight these design decisions in your README.
+
+4.3 Evaluation framework
+Documented evaluation is a huge plus.
+
+Build a small test set:
+
+30–50 synthetic queries of varying difficulty.
+
+For each, write an “ideal” answer and note key interaction facts you expect.
+
+Implement evaluation scripts:
+
+Retrieval metrics: recall@k on whether the relevant chunks are in the top k.
+
+LLM output eval:
+
+Simple heuristic checks: Are both drugs mentioned? Is severity correctly stated?
+
+(Stretch) Use an LLM‑as‑judge approach: ask another model whether the answer is factually consistent with context.
+
+You can cite medical RAG work as justification that evaluation matters, e.g. RAG systems for clinical guideline retrieval.
+
+5. End‑to‑end productisation (2–3 weeks)
+This is where you align with “AI engineer” rather than “researcher”.
+
+5.1 Backend API
+FastAPI backend with endpoints:
+
+POST /query – takes user question, returns answer + citations + interaction severity + latency stats.
+
+GET /health – health check.
+
+POST /feedback – optionally log user feedback (thumbs up/down).
+
+Log:
+
+Latencies for embedding, retrieval, generation.
+
+Prompt and retrieved documents (with PII‑safe dummy data only).
+
+5.2 Frontend
+Simple but polished UI (React/Next.js or Streamlit):
+
+Chat‑style interface.
+
+Show:
+
+Answer.
+
+Highlighted severity badge (green/amber/red).
+
+“Evidence” section listing sources and short snippets.
+
+Input history panel for quick re‑queries.
+
+5.3 Deployment & infra
+Deploy backend to something like Render/Vercel/Supabase functions (plus your chosen vector DB).
+
+Include:
+
+Environment variable management for API keys.
+
+Simple monitoring: console logs + uptime check.
+
+Document infra in a diagram (architecture PNG, even static) and in the README.
+
+You can mirror patterns from existing medical RAG tutorials that use LangChain, vector DBs, and FastAPI/Streamlit.
+
+6. Fine‑tuning & optimisation (optional but powerful, 3–4 weeks)
+RAG + a bit of fine‑tuning puts you squarely in “LLM engineer doing applied work” territory.
+
+6.1 Instruction‑tuning dataset
+Build a synthetic dataset of (query, context, answer) triplets:
+
+200–500 samples where:
+
+Query: drug interaction question.
+
+Context: concatenated relevant chunks from your KB.
+
+Answer: your hand‑crafted ideal answer.
+
+Train a small open model (e.g. 7B‑class) via LoRA or similar to:
+
+Follow your answer style.
+
+Respect disclaimers and safety rules.
+
+6.2 Inference optimisation
+Compare:
+
+Pure RAG with base model.
+
+RAG + fine‑tuned model.
+
+Measure:
+
+Response length, factuality, verbosity, hallucination rate (subjectively, with an LLM judge).
+
+Document results, even if they’re mixed; companies care that you know how to run such experiments.
+
+7. Portfolio packaging for a £50k AI engineer role
+You want to extract maximum signalling from this project. UK AI engineer salary distributions show that strong applied LLM/RAG skills can push you into mid‑level compensation ranges.
+
+7.1 README and technical write‑up
+Your README should clearly show:
+
+Problem definition and scope.
+
+Architecture diagram.
+
+Detailed RAG pipeline explanation.
+
+Safety and limitations section (mention NHS/SPS resources conceptually, but clarify you’re not reproducing proprietary BNF content).
+
+Evaluation methodology and metrics.
+
+Future work (e.g. additional diseases, multi‑language).
+
+7.2 Skills you explicitly list on CV
+From this one project, you can honestly claim experience with:
+
+LLM‑oriented backend design (FastAPI, async pipelines).
+
+RAG architecture, vector DBs (Pinecone / pgvector / FAISS).
+
+Healthcare‑adjacent AI and safety‑aware design.
+
+Evaluation of LLM/RAG systems.
+
+Basic instruction‑tuning.
+
+7.3 Talking points for interviews
+Prepare 3–5 short stories:
+
+“A time you made the system safer” – e.g. query classifier, refusal rules.
+
+“How you debugged bad retrieval” – e.g. chunking changes, better metadata.
+
+“How you evaluated the system” – test set, recall@k, LLM‑as‑judge.
+
+8. Suggested weekly plan (approx. 8–10 weeks)
+Given your current background as an AI engineer:
+
+Week 1: Scope, schema, and manual dataset creation for 20–30 drugs.
+
+Week 2: Ingestion pipeline, vector DB setup, basic retrieval.
+
+Week 3: LangChain RAG v1 (single‑stage retrieval, simple prompts).
+
+Week 4: Query rewriting, multi‑stage retrieval, basic UI.
+
+Week 5: Safety classifier, refusal logic, improved prompts.
+
+Week 6: Evaluation scripts, test set, logging and metrics.
+
+Week 7: Backend hardening, deployment, and docs.
+
+Weeks 8–10 (stretch): Fine‑tuning experiment + write‑up.

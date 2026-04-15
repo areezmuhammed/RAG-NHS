@@ -1,0 +1,18 @@
+# Virtual Environment
+venv/
+ENV/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Data & Indexes
+data/indexes/
+data/raw/
+
+# OS Specific
+.DS_Store
+Thumbs.db

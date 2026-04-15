@@ -1,0 +1,6 @@
+{
+    "nhs_dmd": "https://dmd-browser.nhsbsa.nhs.uk/",
+    "mhra_products": "https://products.mhra.gov.uk/",
+    "nhs_sps_interactions": "https://www.sps.nhs.uk/articles/categories/drug-interactions/",
+    "nhs_england_medication_safety": "https://www.england.nhs.uk/patient-safety/medication-safety/"
+}
